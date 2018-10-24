@@ -1,0 +1,43 @@
+<div class="layout-topbar">
+    <a href="#" id="topbar-menu-button" (click)="app.onMenuButtonClick($event)">
+        <i class="fa fa-angle-left arrow"></i>
+        <i class="fa fa-angle-up mobile"></i>
+    </a>
+
+   
+    <a href="/" class="logo-container">
+        <img src="assets/layout/images/ecuador-logo.png" alt="ecuador-layout" />
+    </a>
+
+    <a id="topbar-profile-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
+        <span>{{app.login.usuario.nombre}}</span>
+        <img src="assets/layout/images/avatar.png" alt="ecuador-layout" class="topbar-profile" />
+        <i class="fa fa-sort-desc"></i>
+    </a>
+
+
+    <ul id="topbar-usermenu"  [ngClass]="{'usermenu-active': app.topbarMenuActive}">
+            <i class="fa fa-question-circle">AYUDA!</i>
+
+    </ul>
+    <ul id="topbar-usermenu" class="fadeInDown animated" [ngClass]="{'usermenu-active': app.topbarMenuActive}">
+
+        <li #logout [ngClass]="{'menuitem-active':true}">
+            <a href="#" (click)="app.startMenu($event)">
+                <i class="fa fa-question-circle"></i>
+                <span class="topbar-item-name">Ver notificaciones</span>
+            </a>
+        </li>
+        <li #logout [ngClass]="{'menuitem-active':true}">
+                <a href="#" (click)="app.login.logout()">
+                    <i class="fa fa-fw fa-bell-o"></i>
+                    <span class="topbar-item-name">Cerrar Session</span>
+                </a>
+            </li>
+    </ul>
+
+    <a href="#" id="right-panel-button" [ngClass]="{'menu-button-rotate': app.rightPanelActive}" (click)="app.onRightPanelButtonClick($event)">
+        <i class="fa fa-angle-double-left"></i>
+    </a>
+
+</div>

@@ -1,0 +1,147 @@
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-4">
+        <button data-intro='Bienvenido a la pantalla de registro de usuarios del sistema!' data-step="1" (click)="startTour()" type="button" pButton icon="fa fa-question-circle" iconPos="left"
+        label="Ayuda" style="float:left"></button>
+    
+    </div>
+    <div class="card card-w-title"  [style]="{'overflow':'hidden' }"  data-intro='Lista de usuarios actuales, para modificar valores seleccione un registro' data-step="3"  >
+      <h1>Registro</h1>
+      <!-- Se define una tabla que mostrará los clientes -->
+      <!-- Se especifica el número de columnas y sus valores. También es posible seleccionar ciertas filas -->
+      <p-table  [style]="{'overflow':'hidden' }" [columns]="cols" [value]="clientes" selectionMode="single" usuarioKey="identificacion" [(selection)]="cliente" [responsive]="true"
+        [paginator]="true" [rows]="10" [responsive]="true" paginatorPosition="both" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+        <!-- Se define una sección de título-->
+        <ng-template pTemplate="caption">
+          Rescatistas
+        </ng-template>
+        <!-- Se define la sección de encabezados para cada una de las columnas de la tabla -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <!-- Se define el cuerpo en sí de la tabla, fila a fila para todas las columnas -->
+        <ng-template pTemplate="body" let-rowusuario let-columns="columns">
+          <tr [pSelectableRow]="rowusuario"  [style]="{'overflow':'hidden' }">
+            <td *ngFor="let col of columns"  [style]="{'overflow':'hidden' }">
+              <span class="ui-column-title">{{col.header}}</span>
+              {{rowusuario[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div class="ui-g-12 ui-md-4">
+        <!-- Se define un botón para crear un nuevo usuario -->
+        <button  data-intro='Seleccione para ingresar un nuevo registro' data-step="2"  pButton type="button" label="Nuevo" style="margin-bottom:10px" class="ui-button-raised" (click)="opt()"></button>
+      </div>
+    </div>
+  </div>
+  <!-- Se define una ventana de diálogo que es visible de acuerdo al valor que tome la propiedad crud -->
+  <p-dialog header="Detalles" class="modal" [(visible)]="crud" [responsive]="true" showEffect="fade" [modal]="true" [width]="1000">
+    <!-- Se define una sección que se mostrará únicamente si existe algún valor en la propiedad rescatista-->
+    <div class="ui-g ui-fluid" *ngIf="rescatista">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-lg-8">
+          <div class="card card-w-title">
+            <h1 (click)='startTour1()'  data-intro='Ingrese los datos del usuario y posteriormente presione guardar' data-step="100">Datos clientes | Ayuda </h1>
+            <div class="ui-g form-group">
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-id-card"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá la identificación del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input  type="text" [(ngModel)]="rescatista.ci" pInputText placeholder="Cedula" required>
+              </div>
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-user"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá el nombre del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="rescatista.nombres" pInputText placeholder="Nombre" required>
+              </div>
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-user"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá el apellido del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="rescatista.apellidos" pInputText placeholder="Apellido" required>
+              </div>
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-address-card"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá la dirección del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="rescatista.direccion" pInputText placeholder="Direccion" required>
+              </div>
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-phone"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá el teléfono fijo del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="rescatista.telefono" pInputText placeholder="Telefono" required>
+              </div>
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                  <span class="ui-inputgroup-addon">
+                    <i class="fa fa-phone"></i>
+                  </span>
+                  <!-- Se define un input text donde se recogerá el número celular del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                  <input type="text" [(ngModel)]="rescatista.movil" pInputText placeholder="Movil" required>
+                </div>
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-envelope"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá el e-mail del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="rescatista.correo" pInputText placeholder="Email" required>
+              </div>
+
+              <div class="ui-inputgroup ui-g-12 ui-md-6">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-hospital-o"></i>
+                </span>
+                <!-- Se define un input text donde se recogerá el e-mail del cliente y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="rescatista.rango" pInputText placeholder="Tipo Sangre" required>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <p-calendar [(ngModel)]="valueFecha" dateFormat="yy-mm-dd"></p-calendar>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-lg-4">
+            <div class="card card-w-title">
+              <h1>Datos de usuario</h1>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-12">
+                <!-- Se define una lista desplegable donde se podrá seleccionar el perfil del usuario y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                  <p-dropdown [options]="perfiles" [(ngModel)]="usuario.perfil" optionLabel="label" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                <!-- Se define un input text donde se recogerá el nombre del usuario y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                  <input type="text" [(ngModel)]="usuario.nombreUsuario" pInputText placeholder="Nombre de usuario" required>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="">Password</label>
+                <!-- Se define un input text donde se recogerá el password del usuario y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                  <input pPassword [(ngModel)]="usuario.password" type="password" required/>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <!-- Se define un botón para guardar los datos del nuevo usuario -->
+        <button type="button" pButton icon="fa fa-check" (click)="guardar()" label="Guardar"></button>
+        <!-- Se define un botón para eliminar los datos del nuevo usuario -->
+        <button *ngIf='cliente' type="button" pButton icon="fa fa-remove" (click)="eliminar()" label="Eliminar"></button>
+        <!-- Se define un botón para cancelar el procedimiento de ingreso de datos del nuevo usuario -->
+        <button type="button" pButton icon="fa fa-close" (click)="opt()" label="Cancelar"></button>
+      </div>
+    </p-footer>
+  </p-dialog>

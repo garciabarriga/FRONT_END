@@ -1,0 +1,10 @@
+
+    .modal { 
+        z-index: 999999997 !important; 
+    }
+    .modal .introjs-fixedTooltip { 
+        z-index: 99999998 !important; /*I give less value to this one. The other way introJs always blocks my modals*/
+    }
+    .modal .introjs-showElement { 
+        z-index: 999999999 !important; 
+        }

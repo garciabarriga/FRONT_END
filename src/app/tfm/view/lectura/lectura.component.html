@@ -1,0 +1,125 @@
+<div class="ui-g ui-fluid">
+    <div class="ui-g-4 ui-lg-4 ui-md-4">
+        <button (click)="startTour()" type="button" pButton icon="fa fa-question-circle" iconPos="left"
+            label="Ayuda" data-intro='Bienvenido a la pantalla de reportes de lecturas de emisión!' data-step="1"  style="float:left"></button>
+
+    </div>
+    <div class="ui-g-12 ui-lg-12">
+        <!-- Se define una sección que mostrará datos únicamente si existe algún valor en la propiedad lecturasBD -->
+        <div data-intro='Gráfica de las mediciones' data-step="5"  class="card" *ngIf='lecturasBD'>
+            <!-- Se define un gráfico lineal que tendrá como datos al objeto lecturas-->
+            <p-chart #chart type="line" [data]="lecturas"></p-chart>
+            <div class="ui-helper-clearfix">
+                <div class="ui-g-12 ui-lg-12">
+                    <div class="ui-g-12 ui-md-5">
+                        <h3>Inicio</h3>
+                        <!-- Se define un calendario donde se establecerá la fecha inicial de consulta. Mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo-->
+                        <p-calendar  data-intro='Seleccione la fecha de inicio' data-step="2" [(ngModel)]="dati" [showIcon]="true"></p-calendar>
+                    </div>
+                    <div class="ui-g-12 ui-lg-1"></div>
+                    <div class="ui-g-12 ui-md-5">
+                        <h3>Fin</h3>
+                        <!-- Se define un calendario donde se establecerá la fecha final de consulta. Mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo-->
+                        <p-calendar  data-intro='Seleccione la fecha de fin' data-step="3" [(ngModel)]="datf" [showIcon]="true"></p-calendar>
+                    </div>
+                    <div class="ui-g-12 ui-lg-1">
+                        <br>
+                        <br>
+                        <br>
+                        <!-- Se define un botón y al evento click se le asocia el método obtenerLecturas, que tiene como entrada el gráfico lineal definido anteriormente-->
+                        <p-button  data-intro='Presione Consultar' data-step="4"leftIcon="pi pi-check" label="Consultar" (click)='obtenerLecturas(chart)'></p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-lg-12">
+        <div  data-intro='Lista de lecturas obtenidas' data-step="6" class="card card-w-title">
+            <h1>Reporte</h1>
+            <!-- Se define una tabla que mostrará datos únicamente si existe algún valor en la propiedad lecturasBD -->
+            <!-- También se especifica el número de columnas y sus valores. También es posible seleccionar filas-->
+            <p-table   *ngIf='lecturasBD' #dt [columns]="cols" [value]="lecturasBD" selectionMode="multiple" [(selection)]="lecturasSeleccionadas"
+                [responsive]="true" [paginator]="true" [rows]="10" [responsive]="true" paginatorPosition="both" (onRowSelect)="onRowSelect($event)"
+                (onRowUnselect)="onRowUnselect($event)">
+                <!-- Se define una sección de título-->
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+                        <div class="ui-g-3">
+                            <!-- Se define un botón para exportar todos los datos en formato .csv -->
+                            <button data-intro='Exportar toda la tabla' data-step="7" type="button" pButton icon="fa fa-file-o" iconPos="left" label="Toda la tabla" (click)="dt.exportCSV()" style="float:left"></button>
+                        </div>
+                        <div class="ui-g-3"></div>
+                        <div class="ui-g-3"></div>
+                        <div class="ui-g-3">
+                            <!-- Se define un botón para exportar únicamente los datos seleccionados en formato .csv -->
+                            <button data-intro='Exportar selección' data-step="9" type="button" pButton icon="fa fa-file" iconPos="left" label="Exportar seleccionado" (click)="dt.exportCSV({selectionOnly:true})"
+                                style="float:right"></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <!-- Se define la sección de encabezados para cada una de las columnas de la tabla-->
+                <ng-template pTemplate="header" let-columns  data-intro='Seleccione filas a exportar' data-step="8">
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <!-- Se define el cuerpo en sí de la tabla, fila a fila para todas las columnas-->
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of columns">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-lg-6">
+
+        <div  data-intro='Tabla de valores máximos, mínimos y promedios' data-step="10" class="card card-w-title">
+            <h1>Valores máximos, mínimos y promedios | &nbsp; </h1>
+            <!-- Se define una tabla que mostrará datos únicamente si existe algún valor en la propiedad data -->
+            <!-- También se especifica el número de columnas y sus valores. También es posible seleccionar filas -->
+            <p-table *ngIf='data' #dtp [columns]="cols1" [value]="data" selectionMode="multiple" [(selection)]="lecturasSeleccionadas"
+                [responsive]="true" [paginator]="true" [rows]="10" [responsive]="true" paginatorPosition="both">
+                <!-- Se define la sección de encabezados para cada una de las columnas de la tabla-->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <!-- Se define el cuerpo en sí de la tabla, fila a fila para todas las columnas-->
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of columns">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+    </div>
+
+    <div data-intro='Grafica de valores máximos, mínimos y promedios' data-step="11" class="ui-g-12 ui-lg-6">
+        <div class="card card-w-title">
+            <!-- Se define un gráfico de barras que tendrá como datos al arreglo promedios-->
+            <p-chart type="bar" [data]="promedios"></p-chart>
+        </div>
+    </div>
+
+</div>

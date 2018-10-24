@@ -1,0 +1,24 @@
+<div data-intro='Notificaciones generadas' data-step="69" id="layout-right-panel" [ngClass]="{'layout-right-panel-active': app.rightPanelActive}" (click)="app.onRightPanelClick()">
+    <p-scrollPanel #scrollRightPanel [style]="{height: '100%'}">
+        <div class="right-panel-scroll-content">
+            <span class="header">Message Box</span>
+            <p-accordion [multiple]="false">
+                <p-accordionTab header="Mensaje recibidos" [selected]="true">
+                    <ul>
+                        <!-- Se recorre las notificaciones -->
+                        <li *ngFor="let notificacion of app.login.notificaciones">
+
+                            <div class="message-container">
+                            <!-- Se muestra el asunto y el mensaje de las notificaciones generadas -->
+                                    <span class="name"> {{ notificacion.asunto }}</span>
+                                    <span class="message"> {{ notificacion.hora }}  &nbsp; -  {{ notificacion.descripcion }} </span>
+                                </div>
+                        </li>
+
+                    </ul>
+                </p-accordionTab>
+            </p-accordion>
+            <i class="fa fa-ellipsis-h"></i>
+        </div>
+    </p-scrollPanel>
+</div>

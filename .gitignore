@@ -1,0 +1,6 @@
+node_modules/*
+src/app/universidad/*
+src/app/virtual/*
+.DS_Store
+.vscode/launch.json
+

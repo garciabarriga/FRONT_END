@@ -1,0 +1,81 @@
+<button data-intro='Bienvenido a la pantalla de configuración del equipo transmisor!' data-step="1" (click)="startTour()" type="button" pButton icon="fa fa-question-circle" iconPos="left"
+            label="Ayuda" style="float:left"></button>
+<div class="card card-w-title">
+    <h1>Configuracion de Sensor</h1>
+    <div class="ui-g">
+        <div class="ui-g-3 ui-md-3">
+          <span>
+            <i class="fa fa-list-alt">&nbsp;</i>
+            <strong>Tipo Sensor </strong>
+          </span>
+        </div>
+        <div class="ui-g-9 ui-md-9" data-intro='Tipo de equipo transmisor' data-step="2" >
+          <span>
+            <!-- Se muestra la propiedad tipo del Equipo -->
+            {{equipo.tipo}}
+          </span>
+        </div>
+        <div class="ui-g-3 ui-md-3">
+            <span>
+              <i class="fa fa-flag">&nbsp;</i>
+              <strong>Estado: </strong>
+            </span>
+          </div>
+          <div class="ui-g-9 ui-md-9"  data-intro='Estado de equipo transmisor, si esta desactivado no almacenará lecturas' data-step="3">
+              <!-- Se define un switch de entrada y al evento onChange se le asocia el método actualizarEstado. Mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo  -->
+              <p-inputSwitch (onChange)="actualizarEstado($event)" [(ngModel)]="equipo.estado"></p-inputSwitch>
+          </div>
+
+      </div>
+
+</div>
+<div class="card card-w-title"  data-intro='Valores máximos para notificaciones' data-step="4">
+  <h1>Parametros de Notificacion &nbsp;| &nbsp;
+    <!-- Se define un botón y al evento click se le asocia el método guardarParams -->
+    <p-button leftIcon="pi pi-check"  label="Guardar"  (click)='guardarParams()'  data-intro='Almacenar valores' data-step="5"></p-button>
+  </h1>
+
+  <p-tabView >
+    <p-tabPanel header="Alarma" leftIcon="far fa-info"  >
+      <span>Alarma</span>
+      <div class="ui-g">
+
+          <div class="ui-inputgroup ui-g-12 ui-md-12" >
+              <span class="ui-inputgroup-addon">
+                <i class="fa fa-hashtag"> Mg/mm3</i>
+              </span>
+              <!-- Se define un input text donde se recogerá el valor máximo de mg/m3 de CO para el nivel de Alarma y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+              <input type="text" [(ngModel)]="mgm3_a.valor" pInputText placeholder="Valor Maximo">
+            </div>
+            <div class="ui-inputgroup ui-g-12 ui-md-12">
+                <span class="ui-inputgroup-addon">
+                    <i class="fa fa-hashtag"> PPM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                  </span>
+                <!-- Se define un input text donde se recogerá el valor máximo de ppm de CO para el nivel de Alarma y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="ppm_a.valor" pInputText placeholder="Valor Maximo">
+              </div>
+      </div>
+    </p-tabPanel>
+
+
+    <p-tabPanel header="Emergencia" leftIcon="far fa-warning" >
+      <span>Emergencia</span>
+      <div class="ui-g">
+          <div class="ui-inputgroup ui-g-12 ui-md-12">
+              <span class="ui-inputgroup-addon">
+                <i class="fa fa-hashtag"> Mg/mm3</i>
+              </span>
+              <!-- Se define un input text donde se recogerá el valor máximo de mg/m3 de CO para el nivel de Emergencia y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+              <input type="text" [(ngModel)]="mgm3_e.valor" pInputText placeholder="Valor Maximo">
+            </div>
+            <div class="ui-inputgroup ui-g-12 ui-md-12">
+                <span class="ui-inputgroup-addon">
+                  <i class="fa fa-hashtag"> PPM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                </span>
+                <!-- Se define un input text donde se recogerá el valor máximo de ppm de CO para el nivel de Emergencia y mediante la directiva [(ngModel)] es posible sincronizar la vista con el modelo -->
+                <input type="text" [(ngModel)]="ppm_e.valor" pInputText placeholder="Valor Maximo">
+              </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</div>
